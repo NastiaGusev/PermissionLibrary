@@ -7,19 +7,21 @@ import android.util.Log;
 
 import androidx.activity.result.ActivityResultLauncher;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 public class MyPermissions {
 
     private Context context;
+    private CameraPermission cameraPermission;
+    private ContactsPermission contactsPermission;
+    private LocationPermission locationPermission;
+    private MicrophonePermission microphonePermission;
+
     public Utils utils;
-    public CameraPermission cameraPermission;
-    public ContactsPermission contactsPermission;
-    public LocationPermission locationPermission;
-    public MicrophonePermission microphonePermission;
-
     public String[] permissions;
-
     public ActivityResultLauncher<String[]> multiplePermissionsLauncher;
     public ActivityResultLauncher<Intent> requestManualPermissionLauncher;
 
@@ -67,19 +69,46 @@ public class MyPermissions {
      */
     public void launchRequestPermissions(String[] perm) {
         this.permissions = perm;
+        checkLocationPermissions();
         if (permissions.length > 0) {
             multiplePermissionsLauncher.launch(permissions);
         }
     }
 
     /**
+     * Check if the location permissions are requested and add the necessary permissions for the request
+     */
+    private void checkLocationPermissions() {
+        List<String> temp = Arrays.asList(this.permissions);
+        List<String> newPermissions = new ArrayList<>();
+        Iterator<String> iter = temp.iterator();
+        boolean addLocationPerm = false;
+
+        while (iter.hasNext()) {
+            String perm = iter.next();
+            if (perm.equals(Manifest.permission.ACCESS_FINE_LOCATION) || perm.equals(Manifest.permission.ACCESS_COARSE_LOCATION)
+                    || perm.equals(Manifest.permission.ACCESS_BACKGROUND_LOCATION)) {
+                addLocationPerm = true;
+            }else {
+                newPermissions.add(perm);
+            }
+        }
+
+        if (addLocationPerm) {
+            newPermissions.addAll(locationPermission.requestPermissionLocation());
+            this.permissions = newPermissions.toArray(new String[0]);
+        }
+    }
+
+
+    /**
      * Launch request for settings dialog
+     *
      * @param manualPermissions String array of permissions to request manually
      */
-    public void launchManualSettingsDialog(List<String> manualPermissions) {
-        if (manualPermissions.size() > 0) {
-            String[] permissions = manualPermissions.toArray(new String[0]);
-            utils.openPermissionSettingDialog(generateManualMessage(permissions), generateDenyMessage(permissions));
+    public void launchManualSettingsDialog(String[] manualPermissions) {
+        if (manualPermissions.length > 0) {
+            utils.openPermissionSettingDialog(generateManualMessage(manualPermissions), generateDenyMessage(manualPermissions));
         }
     }
 
