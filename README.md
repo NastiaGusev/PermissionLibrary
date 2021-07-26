@@ -19,6 +19,7 @@ Add it in your build.gradle at the end of repositories:
 ```gradle
 allprojects {
     repositories {
+        ...
         maven { url "https://jitpack.io" }
     }
 }
