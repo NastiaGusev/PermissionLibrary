@@ -69,7 +69,7 @@ Implement manualPermissionLauncher
 
 Add wanted permissions in Manifest:
 
-```js
+```html
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 ```
