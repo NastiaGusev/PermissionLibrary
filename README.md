@@ -2,11 +2,20 @@
 
 [![](https://jitpack.io/v/NastiaGusev/PermissionLibrary.svg)](https://jitpack.io/#NastiaGusev/PermissionLibrary)
 
-Permission library for requesting permissions.
+Permission library for requesting permissions:
+
+```java
+    android.permission.READ_CONTACTS
+    android.permission.CAMERA
+    android.permission.RECORD_AUDIO
+    android.permission.ACCESS_FINE_LOCATION
+    android.permission.ACCESS_COARSE_LOCATION
+    android.permission.ACCESS_BACKGROUND_LOCATION
+```
 
 ## To add library:
 
-Add it to your build.gradle with:
+Add it in your build.gradle at the end of repositories:
 ```gradle
 allprojects {
     repositories {
@@ -15,7 +24,7 @@ allprojects {
 }
 ```
 
-and:
+Add the dependency:
 
 ```gradle
 dependencies {
