@@ -2,7 +2,7 @@
 
 [![](https://jitpack.io/v/NastiaGusev/PermissionLibrary.svg)](https://jitpack.io/#NastiaGusev/PermissionLibrary)
 
-Permission library for requesting permissions:
+Permission library for requesting permissions in Android Apps:
 
 ```java
     android.permission.READ_CONTACTS
@@ -66,5 +66,30 @@ Implement manualPermissionLauncher
                 }
             });
 ```
+
+Add wanted permissions in Manifest:
+
+```js
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+```
+
+Request Permissions in Activity:
+
+```java
+ public class MainActivity extends AppCompatActivity {
+
+    MyPermissions myPermissions;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        myPermissions = new MyPermissions(this, multiplePermissionLauncher, manuallyPermissionLauncher);
+        myPermissions.launchRequestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_CONTACTS});
+    }
+```
+
 
 
